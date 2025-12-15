@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkunkWorksBank.Domain", "src\SkunkWorksBank.Domain\SkunkWorksBank.Domain.csproj", "{C6DB56C7-3E04-41E7-BC4F-CC961E96ADE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkunkWorksBank.Repository", "src\SkunkWorksBank.Repository\SkunkWorksBank.Repository.csproj", "{7E462169-B058-41D8-AE0E-583B9DDE4E7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkunkWorksBank.Application", "src\SkunkWorksBank.Application\SkunkWorksBank.Application.csproj", "{4145DF72-9C3A-4BE2-A43B-8FD574B81CE5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkunkWorksBank.API", "src\SkunkWorksBank.API\SkunkWorksBank.API.csproj", "{BE84F295-70E5-4C6D-9D4A-3D17D42108DF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkunkWorksBank.API.tests", "test\SkunkWorksBank.API.tests\SkunkWorksBank.API.tests.csproj", "{0B55927B-D8B4-49B9-8B16-73B25C65E5E5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C6DB56C7-3E04-41E7-BC4F-CC961E96ADE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6DB56C7-3E04-41E7-BC4F-CC961E96ADE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6DB56C7-3E04-41E7-BC4F-CC961E96ADE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6DB56C7-3E04-41E7-BC4F-CC961E96ADE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E462169-B058-41D8-AE0E-583B9DDE4E7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E462169-B058-41D8-AE0E-583B9DDE4E7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E462169-B058-41D8-AE0E-583B9DDE4E7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E462169-B058-41D8-AE0E-583B9DDE4E7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4145DF72-9C3A-4BE2-A43B-8FD574B81CE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4145DF72-9C3A-4BE2-A43B-8FD574B81CE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4145DF72-9C3A-4BE2-A43B-8FD574B81CE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4145DF72-9C3A-4BE2-A43B-8FD574B81CE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE84F295-70E5-4C6D-9D4A-3D17D42108DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE84F295-70E5-4C6D-9D4A-3D17D42108DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE84F295-70E5-4C6D-9D4A-3D17D42108DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE84F295-70E5-4C6D-9D4A-3D17D42108DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B55927B-D8B4-49B9-8B16-73B25C65E5E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B55927B-D8B4-49B9-8B16-73B25C65E5E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B55927B-D8B4-49B9-8B16-73B25C65E5E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B55927B-D8B4-49B9-8B16-73B25C65E5E5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0B55927B-D8B4-49B9-8B16-73B25C65E5E5} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E721867A-EEBA-449F-9482-0A57256F405C}
+	EndGlobalSection
+EndGlobal
