@@ -15,7 +15,12 @@ namespace SkunkWorksBank.Domain.Users.ValueObjects
         #endregion
 
         #region Constructors
-        public BirthDate(DateOnly date)
+
+        private BirthDate()
+        {
+            
+        }
+        private BirthDate(DateOnly date)
         {
             Date = date;
         }

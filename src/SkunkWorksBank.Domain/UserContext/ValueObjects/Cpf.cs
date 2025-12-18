@@ -11,6 +11,10 @@ namespace SkunkWorksBank.Domain.Users.ValueObjects
         #endregion
 
         #region Constructor
+        private Cpf()
+        {
+            
+        }
         private Cpf(string cpf)
         {
             Value = cpf;

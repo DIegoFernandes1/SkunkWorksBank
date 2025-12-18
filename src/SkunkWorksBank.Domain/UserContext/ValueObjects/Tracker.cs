@@ -13,7 +13,11 @@ namespace SkunkWorksBank.Domain.Users.ValueObjects
         #endregion
 
         #region Constructos
-        public Tracker(DateTime createdAt, DateTime updatedAt)
+        private Tracker()
+        {
+            
+        }
+        private Tracker(DateTime createdAt, DateTime updatedAt)
         {
             CreatedAt = createdAt;
             UpdatedAt = updatedAt;

@@ -10,10 +10,8 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-var connectionString = "Server=localhost\\SQLEXPRESS;Database=SkunkWorksBank;Trusted_Connection=True;TrustServerCertificate=True;";
-
 builder.Services.AddDbContext<AppDbContext>(x =>
-    x.UseSqlServer(connectionString));
+    x.UseSqlServer(builder.Configuration.GetConnectionString("DevelopmentConnection")));
 
 builder.Services.AddInfrastructure();
 

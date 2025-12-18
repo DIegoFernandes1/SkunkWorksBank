@@ -1,9 +1,14 @@
 ﻿namespace SkunkWorksBank.Domain.Shared.Entities
 {
-    public abstract class Entity(Guid id) : IEquatable<Guid>
+    public abstract class Entity<TId>(TId id) : IEquatable<Entity<TId>> where TId : notnull
     {
-        public Guid Id { get; } = id;
+        public TId Id { get; } = id;
 
-        public bool Equals(Guid other) => Id == Id;
+        public bool Equals(Entity<TId> other)
+        {
+            if (other is null) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return EqualityComparer<TId>.Default.Equals(Id, other.Id);
+        }
     }
 }

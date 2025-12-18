@@ -1,14 +1,17 @@
 ﻿using SkunkWorksBank.Domain.Shared.Abstractions;
 using SkunkWorksBank.Domain.Shared.Aggregates.Abstractions;
 using SkunkWorksBank.Domain.Shared.Entities;
-using SkunkWorksBank.Domain.Users.Enums;
+using SkunkWorksBank.Domain.UserContext.Entities;
 using SkunkWorksBank.Domain.Users.ValueObjects;
 
 namespace SkunkWorksBank.Domain.Users.Entities
 {
-    public sealed class User : Entity, IAggregateRoot
+    public sealed class User : Entity<Guid>, IAggregateRoot
     {
         #region Constructors
+
+        private User() : base(default!) { }
+
         private User(
             UserStatus userStatus,
             string cpf,
@@ -30,12 +33,12 @@ namespace SkunkWorksBank.Domain.Users.Entities
         #endregion
 
         #region Properties
-        public UserStatus UserStatus { get; }
-        public Cpf Cpf { get; }
-        public Name FullName { get; }
+        public UserStatus UserStatus { get; } = null!;
+        public Cpf Cpf { get; } = null!;
+        public Name FullName { get; } = null!;
         public bool IsActive { get; }
-        public Tracker Tracker { get; }
-        public BirthDate Birthdate { get; }
+        public Tracker Tracker { get; } = null!;
+        public BirthDate Birthdate { get; } = null!;
         public bool IsPep { get; }
         #endregion
 

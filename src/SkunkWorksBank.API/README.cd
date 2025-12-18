@@ -1,0 +1,12 @@
+﻿#CONFIGURANDO AMBIENTE
+
+#Necessário ajustar a connection string do projeto, no meu caso estou usando autenticação do windows
+#Server=localhost\\SQLEXPRESS;Database=SkunkWorksBank;Trusted_Connection=True;TrustServerCertificate=True;
+
+#Executando as migrations (code first)
+
+#Criar migration
+#dotnet ef migrations add InitialCreate --project ../SkunkWorksBank.Repository --startup-project .
+
+#executar migration
+#dotnet ef database update --project ../SkunkWorksBank.Repository --startup-project .

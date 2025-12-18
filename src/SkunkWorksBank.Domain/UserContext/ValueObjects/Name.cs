@@ -16,7 +16,11 @@ namespace SkunkWorksBank.Domain.Users.ValueObjects
         #endregion
 
         #region Constructors
-        public Name(string value)
+        private Name()
+        {
+            
+        }
+        private Name(string value)
         {
             Value = value;
         }
