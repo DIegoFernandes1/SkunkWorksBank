@@ -7,13 +7,13 @@ namespace SkunkWorksBank.Domain.Users.ValueObjects
     public sealed record Cpf : ValueObject
     {
         #region Constants
-        private const int MaxLenght = 11;
+        public const int MaxLenght = 11;
         #endregion
 
         #region Constructor
         private Cpf()
         {
-            
+
         }
         private Cpf(string cpf)
         {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SkunkWorksBank.Domain.Users.Entities;
+using SkunkWorksBank.Domain.Users.ValueObjects;
 
 namespace SkunkWorksBank.Repository.SharedContext.Data.Mappings
 {
@@ -31,6 +32,9 @@ namespace SkunkWorksBank.Repository.SharedContext.Data.Mappings
                    .HasColumnName("cpf")
                    .HasMaxLength(11)
                    .IsRequired();
+
+                cpf.HasIndex(p => p.Value)
+                   .IsUnique();
             });
 
             builder.OwnsOne(x => x.FullName, name =>
@@ -59,12 +63,12 @@ namespace SkunkWorksBank.Repository.SharedContext.Data.Mappings
             });
 
             builder.Property(x => x.IsActive)
-                   .HasColumnName("is_active")
+                .HasColumnName("is_active")
                 .IsRequired();
 
             builder.Property(x => x.IsPep)
                 .HasColumnName("is_pep")
-                       .IsRequired();
+                .IsRequired();
             #endregion
         }
     }

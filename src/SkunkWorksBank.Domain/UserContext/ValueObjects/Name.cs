@@ -6,8 +6,8 @@ namespace SkunkWorksBank.Domain.Users.ValueObjects
     public sealed record Name : ValueObject
     {
         #region Constants
-        private const int MinLenght = 5;
-        private const int MaxLenght = 60;
+        public const int MinLenght = 5;
+        public const int MaxLenght = 60;
         #endregion
 
         #region Properties

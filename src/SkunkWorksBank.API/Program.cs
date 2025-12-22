@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SkunkWorksBank.Application.SharedContext;
 using SkunkWorksBank.Repository;
 using SkunkWorksBank.Repository.SharedContext.Data;
 
@@ -14,6 +15,7 @@ builder.Services.AddDbContext<AppDbContext>(x =>
     x.UseSqlServer(builder.Configuration.GetConnectionString("DevelopmentConnection")));
 
 builder.Services.AddInfrastructure();
+builder.Services.AddApplication();
 
 var app = builder.Build();
 

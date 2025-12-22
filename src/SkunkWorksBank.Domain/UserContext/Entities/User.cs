@@ -1,5 +1,6 @@
 ﻿using SkunkWorksBank.Domain.Shared.Abstractions;
 using SkunkWorksBank.Domain.Shared.Aggregates.Abstractions;
+using SkunkWorksBank.Domain.Shared.Common;
 using SkunkWorksBank.Domain.Shared.Entities;
 using SkunkWorksBank.Domain.UserContext.Entities;
 using SkunkWorksBank.Domain.Users.ValueObjects;
@@ -43,9 +44,9 @@ namespace SkunkWorksBank.Domain.Users.Entities
         #endregion
 
         #region Factories
-        public static User Create(string cpf, string fullName, IDateTimeProvider dateTimeProvider, DateOnly birthDate, bool isPep)
+        public static User Create(string cpf, string fullName, DateOnly birthDate, bool isPep)
         {
-            return new User(UserStatus.Pending, cpf, fullName, false, dateTimeProvider, birthDate, isPep);
+            return new User(UserStatus.Pending, cpf, fullName, false, new DateTimeProvider(), birthDate, isPep);
         }
         #endregion
     }
