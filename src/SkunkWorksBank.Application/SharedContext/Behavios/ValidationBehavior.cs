@@ -5,7 +5,7 @@ using MediatR;
 namespace SkunkWorksBank.Application.SharedContext.Behavios
 {
     public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators)
-        : IPipelineBehavior<TRequest, TResponse> where TRequest : ICommand
+        : IPipelineBehavior<TRequest, TResponse> 
     {
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {

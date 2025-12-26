@@ -26,15 +26,6 @@ namespace SkunkWorksBank.Repository.SharedContext.Data.Mappings
                 .IsRequired()
                 .HasMaxLength(50);
             #endregion
-
-            #region Seeds
-            builder.HasData(
-              new { Id = 1, Name = "Pending" },
-              new { Id = 2, Name = "Active" },
-              new { Id = 3, Name = "Blocked" },
-              new { Id = 4, Name = "Disabled" }
-            );
-            #endregion
         }
     }
 }

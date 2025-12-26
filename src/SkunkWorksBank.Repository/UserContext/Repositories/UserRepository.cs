@@ -11,6 +11,6 @@ namespace SkunkWorksBank.Repository.UserContext.Repositories
         => await context.Users.AddAsync(user, cancellationToken);
 
         public async Task<bool> VerifyUserExistsAsync(string cpf, CancellationToken cancellationToken = default)
-            => await context.Users.AsNoTracking().AnyAsync(u => u.Cpf == cpf, cancellationToken);
+            => await context.Users.AsNoTracking().AnyAsync(u => u.Cpf.Value == cpf, cancellationToken);
     }
 }

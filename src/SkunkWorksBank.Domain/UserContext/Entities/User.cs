@@ -3,18 +3,23 @@ using SkunkWorksBank.Domain.Shared.Aggregates.Abstractions;
 using SkunkWorksBank.Domain.Shared.Common;
 using SkunkWorksBank.Domain.Shared.Entities;
 using SkunkWorksBank.Domain.UserContext.Entities;
+using SkunkWorksBank.Domain.UserContext.Enums;
 using SkunkWorksBank.Domain.Users.ValueObjects;
 
 namespace SkunkWorksBank.Domain.Users.Entities
 {
     public sealed class User : Entity<Guid>, IAggregateRoot
     {
+        #region Constants
+        private int _userStatusId;
+        #endregion
+
         #region Constructors
 
         private User() : base(default!) { }
 
         private User(
-            UserStatus userStatus,
+            int UserStatusId,
             string cpf,
             string fullName,
             bool isActive,
@@ -23,7 +28,7 @@ namespace SkunkWorksBank.Domain.Users.Entities
             bool isPep)
         : base(Guid.CreateVersion7())
         {
-            UserStatus = userStatus;
+            _userStatusId = UserStatusId;
             Cpf = Cpf.Create(cpf);
             FullName = Name.Create(fullName);
             IsActive = isActive;
@@ -46,7 +51,7 @@ namespace SkunkWorksBank.Domain.Users.Entities
         #region Factories
         public static User Create(string cpf, string fullName, DateOnly birthDate, bool isPep)
         {
-            return new User(UserStatus.Pending, cpf, fullName, false, new DateTimeProvider(), birthDate, isPep);
+            return new User((int)UserStatusId.Pending, cpf, fullName, false, new DateTimeProvider(), birthDate, isPep);
         }
         #endregion
     }

@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using SkunkWorksBank.Application.SharedContext.Behavios;
 
@@ -11,8 +12,9 @@ namespace SkunkWorksBank.Application.SharedContext
             services.AddMediatR(x =>
             {
                 x.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly);
-                x.AddBehavior(typeof(ValidationBehavior<,>)); //<,> significa que funciona com qualquer combinação de "TRequest, TResponse" 
             });
+
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
             services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
 

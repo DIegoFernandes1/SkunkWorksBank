@@ -19,21 +19,24 @@ namespace SkunkWorksBank.Repository.SharedContext.Data.Mappings
             #endregion
 
             #region Columns
-            builder.Property<int>("user_status_id");
+            builder.Property<int>("_userStatusId")
+                   .HasColumnName("user_status_id")
+                   .IsRequired();
 
             builder.HasOne(x => x.UserStatus)
                    .WithMany()
-                   .HasForeignKey("user_status_id")
+                   .HasForeignKey("_userStatusId")
+                   .OnDelete(DeleteBehavior.Restrict)
                    .IsRequired();
 
             builder.OwnsOne(x => x.Cpf, cpf =>
             {
-                cpf.Property(p => p.Value)
+                cpf.Property(c => c.Value)
                    .HasColumnName("cpf")
                    .HasMaxLength(11)
                    .IsRequired();
 
-                cpf.HasIndex(p => p.Value)
+                cpf.HasIndex(c => c.Value)
                    .IsUnique();
             });
 

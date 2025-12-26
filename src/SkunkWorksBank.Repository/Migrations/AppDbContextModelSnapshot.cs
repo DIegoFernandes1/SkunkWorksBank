@@ -37,28 +37,6 @@ namespace SkunkWorksBank.Repository.Migrations
                         .HasName("PK_User_Status");
 
                     b.ToTable("user_status", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Pending"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Active"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Blocked"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Disabled"
-                        });
                 });
 
             modelBuilder.Entity("SkunkWorksBank.Domain.Users.Entities.User", b =>
@@ -75,13 +53,14 @@ namespace SkunkWorksBank.Repository.Migrations
                         .HasColumnType("bit")
                         .HasColumnName("is_pep");
 
-                    b.Property<int>("user_status_id")
-                        .HasColumnType("int");
+                    b.Property<int>("_userStatusId")
+                        .HasColumnType("int")
+                        .HasColumnName("user_status_id");
 
                     b.HasKey("Id")
                         .HasName("PK_User");
 
-                    b.HasIndex("user_status_id");
+                    b.HasIndex("_userStatusId");
 
                     b.ToTable("users", (string)null);
                 });
@@ -90,8 +69,8 @@ namespace SkunkWorksBank.Repository.Migrations
                 {
                     b.HasOne("SkunkWorksBank.Domain.UserContext.Entities.UserStatus", "UserStatus")
                         .WithMany()
-                        .HasForeignKey("user_status_id")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("_userStatusId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.OwnsOne("SkunkWorksBank.Domain.Users.ValueObjects.BirthDate", "Birthdate", b1 =>
