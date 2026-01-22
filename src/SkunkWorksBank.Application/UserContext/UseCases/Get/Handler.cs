@@ -1,0 +1,30 @@
+﻿using SkunkWorksBank.Application.SharedContext.Results;
+using SkunkWorksBank.Application.SharedContext.UseCases.Abstractions;
+using SkunkWorksBank.Domain.UserContext.Specifications;
+using SkunkWorksBank.Domain.Users.Repositories.Abstractions;
+
+namespace SkunkWorksBank.Application.UserContext.UseCases.Get
+{
+    public class Handler(IUserRepository userRepository) : IQueryHandler<Query, Response>
+    {
+        public async Task<Result<Response>> Handle(Query request, CancellationToken cancellationToken)
+        {
+            var user = await userRepository.FindAsync(new GetByIdSpecification(request.Id), cancellationToken);
+
+            if (user == null)
+                return Result.Failure<Response>(new Error("404", "Usuário não encontrado"));
+
+            return Result.Success(new Response(
+                    user.Id,
+                    user.Cpf,
+                    user.FullName,
+                    user.IsActive,
+                    user.Birthdate,
+                    user.IsPep,
+                    user.Tracker.CreatedAt,
+                    user.Tracker.UpdatedAt,
+                    new UserStatusResponse(user.UserStatus.Id, user.UserStatus.Name)
+                ));
+        }
+    }
+}
