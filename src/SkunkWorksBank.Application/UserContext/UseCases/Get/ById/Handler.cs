@@ -3,7 +3,7 @@ using SkunkWorksBank.Application.SharedContext.UseCases.Abstractions;
 using SkunkWorksBank.Domain.UserContext.Specifications;
 using SkunkWorksBank.Domain.Users.Repositories.Abstractions;
 
-namespace SkunkWorksBank.Application.UserContext.UseCases.Get
+namespace SkunkWorksBank.Application.UserContext.UseCases.Get.ById
 {
     public class Handler(IUserRepository userRepository) : IQueryHandler<Query, Response>
     {

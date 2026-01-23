@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SkunkWorksBank.Application.UserContext.UseCases.Create;
-using SkunkWorksBank.Application.UserContext.UseCases.Get;
+using SkunkWorksBank.Application.UserContext.UseCases.Get.ById;
 
 namespace SkunkWorksBank.API.Controllers
 {

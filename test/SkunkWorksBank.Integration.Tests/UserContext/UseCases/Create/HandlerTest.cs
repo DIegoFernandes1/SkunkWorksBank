@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using SkunkWorksBank.API.Integration.Tests.Fakers;
 using SkunkWorksBank.Application.SharedContext.Behavios;
-using SkunkWorksBank.Application.UserContext.UseCases.Create;
 using SkunkWorksBank.Domain.Users.ValueObjects.Exceptions;
 
 namespace SkunkWorksBank.API.Integration.Tests.UserContext.UseCases.Create
@@ -19,13 +19,7 @@ namespace SkunkWorksBank.API.Integration.Tests.UserContext.UseCases.Create
         [Fact]
         public async Task ShouldCreateAnUser()
         {
-            var command = new Command
-            (
-                FullName: "Diego Fernandes de Meneses",
-                Cpf: "09290208040",
-                BirthDate: new DateOnly(1994, 5, 12),
-                IsPep: false
-            );
+            var command = UserFaker.CreateUserCommand().Generate();
 
             var result = await _sender.Send(command, CancellationToken.None);
 
@@ -37,13 +31,7 @@ namespace SkunkWorksBank.API.Integration.Tests.UserContext.UseCases.Create
         [Fact]
         public async void ShouldFailToCreateAnUserWithInvalidBirthDate()
         {
-            var command = new Command
-           (
-               FullName: "Diego Fernandes de Meneses",
-               Cpf: "09290208040",
-               BirthDate: new DateOnly(2022, 5, 12),
-               IsPep: false
-           );
+            var command = UserFaker.CreateUserCommand(true).Generate();
 
             await Assert.ThrowsAsync<InvalidBirthDateException>(async () =>
             {
@@ -54,13 +42,7 @@ namespace SkunkWorksBank.API.Integration.Tests.UserContext.UseCases.Create
         [Fact]
         public async void ShouldFailToCreateAnUserWithInvalidCpf()
         {
-            var command = new Command
-           (
-               FullName: "Diego Fernandes de Meneses",
-               Cpf: "092902",
-               BirthDate: new DateOnly(2022, 5, 12),
-               IsPep: false
-           );
+            var command = UserFaker.CreateUserCommand(false, true).Generate();
 
             await Assert.ThrowsAsync<ValidationException>(async () =>
             {
@@ -71,13 +53,7 @@ namespace SkunkWorksBank.API.Integration.Tests.UserContext.UseCases.Create
         [Fact]
         public async void ShouldFailToCreateAnUserWithInvalidFullName()
         {
-            var command = new Command
-           (
-               FullName: "Di",
-               Cpf: "092902",
-               BirthDate: new DateOnly(2022, 5, 12),
-               IsPep: false
-           );
+            var command = UserFaker.CreateUserCommand(false, false, true).Generate();
 
             await Assert.ThrowsAsync<ValidationException>(async () =>
             {
