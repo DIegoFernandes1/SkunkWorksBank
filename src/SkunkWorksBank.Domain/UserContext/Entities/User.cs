@@ -46,6 +46,7 @@ namespace SkunkWorksBank.Domain.Users.Entities
         public Tracker Tracker { get; } = null!;
         public BirthDate Birthdate { get; } = null!;
         public bool IsPep { get; }
+        public ICollection<Contact> Contacts { get; } = null!;
         #endregion
 
         #region Factories

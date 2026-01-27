@@ -1,5 +1,4 @@
-﻿using SkunkWorksBank.API.tests.Mocks;
-using SkunkWorksBank.Domain.Users.Entities;
+﻿using SkunkWorksBank.Domain.Users.Entities;
 
 namespace SkunkWorksBank.API.tests.Users.Entities
 {
