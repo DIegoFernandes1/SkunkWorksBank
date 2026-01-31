@@ -46,19 +46,12 @@ namespace SkunkWorksBank.Repository.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("user_id");
 
-                    b.Property<Guid?>("UserId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id")
                         .HasName("PK_Contacts");
 
                     b.HasIndex("ContactTypeId");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("UserId1")
-                        .IsUnique()
-                        .HasFilter("[UserId1] IS NOT NULL");
 
                     b.ToTable("contacts", (string)null);
                 });
@@ -135,14 +128,10 @@ namespace SkunkWorksBank.Repository.Migrations
                         .IsRequired();
 
                     b.HasOne("SkunkWorksBank.Domain.Users.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("Contacts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("SkunkWorksBank.Domain.Users.Entities.User", null)
-                        .WithOne("Contact")
-                        .HasForeignKey("SkunkWorksBank.Domain.UserContext.Entities.Contact", "UserId1");
 
                     b.OwnsOne("SkunkWorksBank.Domain.UserContext.ValueObjects.ContactValue", "Value", b1 =>
                         {
@@ -275,8 +264,7 @@ namespace SkunkWorksBank.Repository.Migrations
 
             modelBuilder.Entity("SkunkWorksBank.Domain.Users.Entities.User", b =>
                 {
-                    b.Navigation("Contact")
-                        .IsRequired();
+                    b.Navigation("Contacts");
                 });
 #pragma warning restore 612, 618
         }

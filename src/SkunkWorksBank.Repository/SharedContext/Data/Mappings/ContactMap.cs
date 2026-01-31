@@ -22,12 +22,6 @@ namespace SkunkWorksBank.Repository.SharedContext.Data.Mappings
                    .HasColumnName("user_id")
                    .IsRequired();
 
-            builder.HasOne(x => x.User)
-                   .WithMany(x => x.Contacts)
-                   .HasForeignKey("UserId")
-                   .OnDelete(DeleteBehavior.Restrict)
-                   .IsRequired();
-
             builder.Property<int>("ContactTypeId")
                    .HasColumnName("contact_type_id")
                    .IsRequired();

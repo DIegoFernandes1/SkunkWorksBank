@@ -8,13 +8,13 @@ namespace SkunkWorksBank.Repository.UserContext.Repositories
 {
     internal class UserRepository(AppDbContext context) : IUserRepository
     {
-        public async Task SaveAsync(User user, CancellationToken cancellationToken = default)
+        public async Task AddAsync(User user, CancellationToken cancellationToken = default)
             => await context.Users.AddAsync(user, cancellationToken);
 
         public async Task<User?> FindAsync(ISpecification<User> specification, CancellationToken cancellationToken = default)
             => await context.Users
                 .Include(x => x.UserStatus)
-                .AsNoTracking()
+                .Include(x => x.Contacts)
                 .Where(specification.Criteria)
                 .FirstOrDefaultAsync(cancellationToken);
     }

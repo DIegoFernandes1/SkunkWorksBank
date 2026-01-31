@@ -6,7 +6,7 @@ namespace SkunkWorksBank.Domain.Users.Repositories.Abstractions
 {
     public interface IUserRepository : IRepository<User>
     {
-        Task SaveAsync(User user, CancellationToken cancellationToken = default);
+        Task AddAsync(User user, CancellationToken cancellationToken = default);
         Task<User?> FindAsync(ISpecification<User> specification, CancellationToken cancellationToken = default);
     }
 }

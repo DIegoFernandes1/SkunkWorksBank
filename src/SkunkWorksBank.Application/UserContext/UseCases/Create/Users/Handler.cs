@@ -5,11 +5,11 @@ using SkunkWorksBank.Domain.UserContext.Specifications;
 using SkunkWorksBank.Domain.Users.Entities;
 using SkunkWorksBank.Domain.Users.Repositories.Abstractions;
 
-namespace SkunkWorksBank.Application.UserContext.UseCases.Create
+namespace SkunkWorksBank.Application.UserContext.UseCases.Create.Users
 {
-    public sealed class Handler(IUserRepository userRepository, IUnitOfWork unitOfWork) : ICommandHandler<Command, Response>
+    public sealed class Handler(IUserRepository userRepository, IUnitOfWork unitOfWork) : ICommandHandler<UserCommand, Response>
     {
-        public async Task<Result<Response>> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<Result<Response>> Handle(UserCommand request, CancellationToken cancellationToken)
         {
             //verifica se já existe um usuario cadastrado
             var userExists = await userRepository.FindAsync(new GetByCpfSpecification(request.Cpf), cancellationToken);
@@ -19,7 +19,7 @@ namespace SkunkWorksBank.Application.UserContext.UseCases.Create
 
             var user = User.Create(request.Cpf, request.FullName, request.BirthDate, request.IsPep);
 
-            await userRepository.SaveAsync(user, cancellationToken);
+            await userRepository.AddAsync(user, cancellationToken);
             await unitOfWork.CommitAsync(cancellationToken);
 
             return Result.Success(new Response(user.Id));

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SkunkWorksBank.Application.UserContext.UseCases.Create;
+using SkunkWorksBank.Application.UserContext.UseCases.Create.Users;
+using SkunkWorksBank.Application.UserContext.UseCases.Create.Contacts;
 using SkunkWorksBank.Application.UserContext.UseCases.Get.ById;
 
 namespace SkunkWorksBank.API.Controllers
@@ -17,7 +18,7 @@ namespace SkunkWorksBank.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Command command, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create(UserCommand command, CancellationToken cancellationToken)
         {
             var result = await sender.Send(command, cancellationToken);
 
@@ -31,6 +32,18 @@ namespace SkunkWorksBank.API.Controllers
         public async Task<IActionResult> Get([FromQuery] Query query, CancellationToken cancellationToken)
         {
             var result = await sender.Send(query, cancellationToken);
+
+            if (result.IsFailure)
+                return BadRequest(result.Error);
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("AddContact")]
+        public async Task<IActionResult> AddContact(ContactCommand command, CancellationToken cancellationToken)
+        {
+            var result = await sender.Send(command, cancellationToken);
 
             if (result.IsFailure)
                 return BadRequest(result.Error);

@@ -12,6 +12,7 @@ namespace SkunkWorksBank.Domain.Users.Entities
     {
         #region Constants
         private int _userStatusId;
+        private readonly List<Contact> _contacts = new();
         #endregion
 
         #region Constructors
@@ -46,13 +47,30 @@ namespace SkunkWorksBank.Domain.Users.Entities
         public Tracker Tracker { get; } = null!;
         public BirthDate Birthdate { get; } = null!;
         public bool IsPep { get; }
-        public ICollection<Contact> Contacts { get; } = null!;
+        public IReadOnlyCollection<Contact> Contacts => _contacts.AsReadOnly();
         #endregion
 
         #region Factories
         public static User Create(string cpf, string fullName, DateOnly birthDate, bool isPep)
         {
             return new User((int)UserStatusId.Pending, cpf, fullName, false, new DateTimeProvider(), birthDate, isPep);
+        }
+
+        public Contact AddContact(int contactTypeId, string value, bool isPrimary, bool isVerified)
+        {
+            var exists = _contacts.Any(x => x.Value.ToString().ToLower().Trim().Equals(value.ToLower().Trim())); //remover essas validações de string para o validationBehavior 
+
+            if (exists)
+                throw new Exception(); //lançar exception personalizada
+
+            var contact = Contact.Create(this.Id, contactTypeId, value, isPrimary, isVerified);
+
+            if (contact is null)
+                throw new Exception(); //lançar exception personalizada
+
+            _contacts.Add(contact);
+
+            return contact;
         }
         #endregion
     }

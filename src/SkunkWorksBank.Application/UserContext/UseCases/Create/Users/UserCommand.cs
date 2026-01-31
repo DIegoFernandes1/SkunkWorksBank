@@ -1,8 +1,8 @@
 ﻿using SkunkWorksBank.Application.SharedContext.UseCases.Abstractions;
 
-namespace SkunkWorksBank.Application.UserContext.UseCases.Create
+namespace SkunkWorksBank.Application.UserContext.UseCases.Create.Users
 {
-    public sealed record Command(
+    public sealed record UserCommand(
         string Cpf,
         string FullName,
         DateOnly BirthDate,

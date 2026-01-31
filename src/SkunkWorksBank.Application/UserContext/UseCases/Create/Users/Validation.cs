@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 using SkunkWorksBank.Domain.Users.ValueObjects;
 
-namespace SkunkWorksBank.Application.UserContext.UseCases.Create
+namespace SkunkWorksBank.Application.UserContext.UseCases.Create.Users
 {
-    public class Validation : AbstractValidator<Command>
+    public class Validation : AbstractValidator<UserCommand>
     {
         public Validation()
         {

@@ -14,17 +14,7 @@ namespace SkunkWorksBank.Application.UserContext.UseCases.Get.ById
             if (user == null)
                 return Result.Failure<Response>(new Error("404", "Usuário não encontrado"));
 
-            return Result.Success(new Response(
-                    user.Id,
-                    user.Cpf,
-                    user.FullName,
-                    user.IsActive,
-                    user.Birthdate,
-                    user.IsPep,
-                    user.Tracker.CreatedAt,
-                    user.Tracker.UpdatedAt,
-                    new UserStatusResponse(user.UserStatus.Id, user.UserStatus.Name)
-                ));
+            return Result.Success(Response.FromEntity(user));
         }
     }
 }

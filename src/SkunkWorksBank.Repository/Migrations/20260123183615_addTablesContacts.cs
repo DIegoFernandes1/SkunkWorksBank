@@ -35,22 +35,16 @@ namespace SkunkWorksBank.Repository.Migrations
                     value = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     is_primary = table.Column<bool>(type: "bit", nullable: false),
                     is_verified = table.Column<bool>(type: "bit", nullable: false),
-                    UserId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Contacts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_contacts_contacts_contact_type_id",
+                        name: "FK_contacts_contact_type_id",
                         column: x => x.contact_type_id,
-                        principalTable: "contacts",
+                        principalTable: "contact_types",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_contacts_users_UserId1",
-                        column: x => x.UserId1,
-                        principalTable: "users",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_contacts_users_user_id",
                         column: x => x.user_id,
@@ -69,12 +63,14 @@ namespace SkunkWorksBank.Repository.Migrations
                 table: "contacts",
                 column: "user_id");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_contacts_UserId1",
-                table: "contacts",
-                column: "UserId1",
-                unique: true,
-                filter: "[UserId1] IS NOT NULL");
+            migrationBuilder.InsertData(
+               table: "contact_types",
+               columns: new[] { "Id", "name" },
+               values: new object[,]
+               {
+                    { 1, "Telefone" },
+                    { 2, "Email" }
+               });
         }
 
         /// <inheritdoc />

@@ -10,3 +10,11 @@
 
 #executar migration
 #dotnet ef database update --project ../SkunkWorksBank.Repository --startup-project .
+
+#rollback
+#dotnet ef database update [NOME_DA_MIGRATION] --project ../SkunkWorksBank.Repository --startup-project .
+
+#TODO LIST
+#- AJUSTAR MAPEAMENTO ENTIDADE CONTACTTYPE NO EF
+#- MOVER RESULT DA APPLICATION PARA MODEL, E SUBSTITUIR AS EXCEPTIONS PELO RESULT
+#- AJUSTAR RETORNO DO VALIDATION BEHAVIOR PARA RESULT

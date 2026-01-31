@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SkunkWorksBank.Domain.Users.Entities;
-using SkunkWorksBank.Domain.Users.ValueObjects;
 
 namespace SkunkWorksBank.Repository.SharedContext.Data.Mappings
 {
@@ -72,6 +71,17 @@ namespace SkunkWorksBank.Repository.SharedContext.Data.Mappings
             builder.Property(x => x.IsPep)
                 .HasColumnName("is_pep")
                 .IsRequired();
+            #endregion
+
+            #region relational
+            builder.HasMany(u => u.Contacts)
+                   .WithOne(c => c.User)
+                   .HasForeignKey(c => c.UserId)
+                   .OnDelete(DeleteBehavior.Restrict)
+                   .IsRequired();
+
+            builder.Navigation(u => u.Contacts)
+                   .UsePropertyAccessMode(PropertyAccessMode.Field);
             #endregion
         }
     }
