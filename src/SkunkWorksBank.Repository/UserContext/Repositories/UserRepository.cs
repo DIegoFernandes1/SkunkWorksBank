@@ -14,7 +14,7 @@ namespace SkunkWorksBank.Repository.UserContext.Repositories
         public async Task<User?> FindAsync(ISpecification<User> specification, CancellationToken cancellationToken = default)
             => await context.Users
                 .Include(x => x.UserStatus)
-                .Include(x => x.Contacts)
+                .Include(x => x.Contacts).ThenInclude(x => x.ContactType)
                 .Where(specification.Criteria)
                 .FirstOrDefaultAsync(cancellationToken);
     }

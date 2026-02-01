@@ -34,7 +34,7 @@ namespace SkunkWorksBank.Application.UserContext.UseCases.Get
                      contact.UserId,
                      new ContactTypeResponse(
                          contact.ContactType.Id,
-                         contact.ContactType.Value.ToString()
+                         contact.ContactType.Name
                      ),
                      contact.Value,
                      contact.IsPrimary,

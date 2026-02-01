@@ -29,7 +29,7 @@ namespace SkunkWorksBank.Domain.UserContext.Entities
         public User User { get; set; } = null!;
 
         public int ContactTypeId { get; }
-        public Contact ContactType { get; set; } = null!;
+        public ContactType ContactType { get; set; } = null!;
 
         public ContactValue Value { get; } = null!;
         public bool IsPrimary { get; }
