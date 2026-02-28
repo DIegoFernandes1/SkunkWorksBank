@@ -1,4 +1,4 @@
-﻿using SkunkWorksBank.Application.SharedContext.Results;
+﻿using SkunkWorksBank.Domain.Shared.Results;
 using SkunkWorksBank.Application.SharedContext.UseCases.Abstractions;
 using SkunkWorksBank.Domain.Shared.Data.Abstractions;
 using SkunkWorksBank.Domain.UserContext.Specifications;
@@ -18,11 +18,11 @@ namespace SkunkWorksBank.Application.UserContext.UseCases.Create.Contacts
             if (user is null)
                 return Result.Failure<Response>(new Error("404", $"Usuário não encontrado com o ID fornecido. ID {request.UserId}"));
 
-            var contact = user.AddContact(request.ContactTypeId, request.Value, request.IsPrimary, request.IsVerified);
+            var contact = await user
+                .AddContact(request.ContactTypeId, request.Value, request.IsPrimary, request.IsVerified)
+                .TapAsync(_ => unitOfWork.CommitAsync(cancellationToken));
 
-            await unitOfWork.CommitAsync(cancellationToken);
-
-            return Result.Success(new Response(contact.Id));
+            return Result.Success(new Response(contact.Value.Id));
         }
     }
 }

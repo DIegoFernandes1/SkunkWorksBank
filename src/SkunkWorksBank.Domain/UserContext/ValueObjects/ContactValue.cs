@@ -1,4 +1,5 @@
-﻿using SkunkWorksBank.Domain.Shared.ValueObjects;
+﻿using SkunkWorksBank.Domain.Shared.Results;
+using SkunkWorksBank.Domain.Shared.ValueObjects;
 using SkunkWorksBank.Domain.UserContext.ValueObjects.Exceptions;
 using System.Text.RegularExpressions;
 
@@ -26,17 +27,17 @@ namespace SkunkWorksBank.Domain.UserContext.ValueObjects
         #endregion
 
         #region Factory
-        public static ContactValue Create(string value)
+        public static Result<ContactValue> Create(string value)
         {
             if (string.IsNullOrEmpty(value)
                 || string.IsNullOrWhiteSpace(value))
-                throw new InvalidContactValueException("Campo não pode ser vazio.");
+                return Result.Failure<ContactValue>(new Error("422", "Campo não pode ser vazio."));
 
             if (EmailRegex.IsMatch(value)
                 || PhoneRegex.IsMatch(value))
-                return new ContactValue(value);
+                return Result.Success(new ContactValue(value));
 
-            throw new InvalidUnknownContactTypeException("É necessário informar um contato válido.");
+            return Result.Failure<ContactValue>(new Error("422", "É necessário informar um contato válido."));
         }
         #endregion
 

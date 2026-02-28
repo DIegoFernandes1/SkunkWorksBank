@@ -2,6 +2,7 @@
 using SkunkWorksBank.Domain.Shared.Aggregates.Abstractions;
 using SkunkWorksBank.Domain.Shared.Common;
 using SkunkWorksBank.Domain.Shared.Entities;
+using SkunkWorksBank.Domain.Shared.Results;
 using SkunkWorksBank.Domain.UserContext.Entities;
 using SkunkWorksBank.Domain.UserContext.Enums;
 using SkunkWorksBank.Domain.Users.ValueObjects;
@@ -21,20 +22,20 @@ namespace SkunkWorksBank.Domain.Users.Entities
 
         private User(
             int UserStatusId,
-            string cpf,
-            string fullName,
+            Cpf cpf,
+            Name fullName,
             bool isActive,
-            IDateTimeProvider dateTimeProvider,
-            DateOnly birthDate,
+            Tracker tracker,
+            BirthDate birthDate,
             bool isPep)
         : base(Guid.CreateVersion7())
         {
             _userStatusId = UserStatusId;
-            Cpf = Cpf.Create(cpf);
-            FullName = Name.Create(fullName);
+            Cpf = cpf;
+            FullName = fullName;
             IsActive = isActive;
-            Tracker = Tracker.Create(dateTimeProvider);
-            Birthdate = BirthDate.Create(birthDate, DateOnly.FromDateTime(dateTimeProvider.UtcNow));
+            Tracker = tracker;
+            Birthdate = birthDate;
             IsPep = isPep;
         }
         #endregion
@@ -51,26 +52,32 @@ namespace SkunkWorksBank.Domain.Users.Entities
         #endregion
 
         #region Factories
-        public static User Create(string cpf, string fullName, DateOnly birthDate, bool isPep)
+        public static Result<User> Create(string cpf, string fullName, DateOnly birthDate, bool isPep)
         {
-            return new User((int)UserStatusId.Pending, cpf, fullName, false, new DateTimeProvider(), birthDate, isPep);
+            var dateTimeProvider = new DateTimeProvider();
+
+            var cpfResult = Cpf.Create(cpf);
+            var nameResult = Name.Create(fullName);
+            var trackerResult = Tracker.Create(dateTimeProvider);
+            var birthDateResult = BirthDate.Create(birthDate, DateOnly.FromDateTime(dateTimeProvider.UtcNow));
+
+            var validationResult = Result.Combine(cpfResult, nameResult, trackerResult, birthDateResult);
+
+            if (validationResult.IsFailure)
+                return Result.Failure<User>(validationResult.Error);
+
+            return Result.Success(new User((int)UserStatusId.Pending, cpfResult.Value, nameResult.Value, false, trackerResult.Value, birthDateResult.Value, isPep));
         }
 
-        public Contact AddContact(int contactTypeId, string value, bool isPrimary, bool isVerified)
+        public Result<Contact> AddContact(int contactTypeId, string value, bool isPrimary, bool isVerified)
         {
-            var exists = _contacts.Any(x => x.Value.ToString().ToLower().Trim().Equals(value.ToLower().Trim())); //remover essas validações de string para o validationBehavior 
+            var exists = _contacts.Any(x => x.Value.Equals(value));
 
             if (exists)
-                throw new Exception(); //lançar exception personalizada
+                return Result.Failure<Contact>(new Error("409", "Já existe um contato cadastrado"));
 
-            var contact = Contact.Create(this.Id, contactTypeId, value, isPrimary, isVerified);
-
-            if (contact is null)
-                throw new Exception(); //lançar exception personalizada
-
-            _contacts.Add(contact);
-
-            return contact;
+            return Contact.Create(this.Id, contactTypeId, value, isPrimary, isVerified)
+                .Tap(_contacts.Add);
         }
         #endregion
     }

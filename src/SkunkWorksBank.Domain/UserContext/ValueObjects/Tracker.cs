@@ -1,4 +1,5 @@
 ﻿using SkunkWorksBank.Domain.Shared.Abstractions;
+using SkunkWorksBank.Domain.Shared.Results;
 using SkunkWorksBank.Domain.Shared.ValueObjects;
 
 namespace SkunkWorksBank.Domain.Users.ValueObjects
@@ -15,7 +16,7 @@ namespace SkunkWorksBank.Domain.Users.ValueObjects
         #region Constructos
         private Tracker()
         {
-            
+
         }
         private Tracker(DateTime createdAt, DateTime updatedAt)
         {
@@ -25,11 +26,11 @@ namespace SkunkWorksBank.Domain.Users.ValueObjects
         #endregion
 
         #region Factories
-        public static Tracker Create(IDateTimeProvider dateTimeProvider)
-            => new Tracker(dateTimeProvider.UtcNow, dateTimeProvider.UtcNow);
+        public static Result<Tracker> Create(IDateTimeProvider dateTimeProvider)
+            => Result.Success(new Tracker(dateTimeProvider.UtcNow, dateTimeProvider.UtcNow));
 
-        public static Tracker Create(DateTime createdAt, DateTime updatedAt)
-           => new Tracker(createdAt, updatedAt);
+        public static Result<Tracker> Create(DateTime createdAt, DateTime updatedAt)
+           => Result.Success(new Tracker(createdAt, updatedAt));
         #endregion
 
         #region Methods

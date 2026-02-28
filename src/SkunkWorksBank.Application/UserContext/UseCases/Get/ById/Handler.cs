@@ -1,4 +1,4 @@
-﻿using SkunkWorksBank.Application.SharedContext.Results;
+﻿using SkunkWorksBank.Domain.Shared.Results;
 using SkunkWorksBank.Application.SharedContext.UseCases.Abstractions;
 using SkunkWorksBank.Domain.UserContext.Specifications;
 using SkunkWorksBank.Domain.Users.Repositories.Abstractions;

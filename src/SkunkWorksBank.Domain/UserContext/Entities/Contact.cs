@@ -1,4 +1,5 @@
 ﻿using SkunkWorksBank.Domain.Shared.Entities;
+using SkunkWorksBank.Domain.Shared.Results;
 using SkunkWorksBank.Domain.UserContext.ValueObjects;
 using SkunkWorksBank.Domain.Users.Entities;
 
@@ -11,14 +12,14 @@ namespace SkunkWorksBank.Domain.UserContext.Entities
         private Contact(
             Guid userId,
             int contactTypeId,
-            string value,
+            ContactValue value,
             bool isPrimary,
             bool isVerified)
         : base(default!)
         {
             UserId = userId;
             ContactTypeId = contactTypeId;
-            Value = ContactValue.Create(value);
+            Value = value;
             IsPrimary = isPrimary;
             IsVerified = isVerified;
         }
@@ -37,9 +38,10 @@ namespace SkunkWorksBank.Domain.UserContext.Entities
         #endregion
 
         #region Factory
-        public static Contact Create(Guid userId, int contactTypeId, string value, bool isPrimary, bool isVerified)
+        public static Result<Contact> Create(Guid userId, int contactTypeId, string value, bool isPrimary, bool isVerified)
         {
-            return new Contact(userId, contactTypeId, value, isPrimary, isVerified);
+            return ContactValue.Create(value)
+                .Map(contactValue => new Contact(userId, contactTypeId, contactValue, isPrimary, isVerified));
         }
         #endregion
 

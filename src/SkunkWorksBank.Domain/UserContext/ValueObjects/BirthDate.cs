@@ -1,4 +1,5 @@
-﻿using SkunkWorksBank.Domain.Shared.ValueObjects;
+﻿using SkunkWorksBank.Domain.Shared.Results;
+using SkunkWorksBank.Domain.Shared.ValueObjects;
 using SkunkWorksBank.Domain.Users.ValueObjects.Exceptions;
 
 namespace SkunkWorksBank.Domain.Users.ValueObjects
@@ -18,7 +19,7 @@ namespace SkunkWorksBank.Domain.Users.ValueObjects
 
         private BirthDate()
         {
-            
+
         }
         private BirthDate(DateOnly date)
         {
@@ -27,20 +28,20 @@ namespace SkunkWorksBank.Domain.Users.ValueObjects
         #endregion
 
         #region Factories
-        public static BirthDate Create(DateOnly date, DateOnly today)
+        public static Result<BirthDate> Create(DateOnly date, DateOnly today)
         {
             if (date > today)
-                throw new InvalidBirthDateException("Idade não pode ser futura");
+                return Result.Failure<BirthDate>(new Error("422", "Idade não pode ser futura"));
 
             var age = GetAge(date, today);
 
             if (age > MaxAge)
-                throw new InvalidBirthDateException($"Idade máxima é de {MaxAge} anos.");
+                return Result.Failure<BirthDate>(new Error("422", $"Idade máxima é de {MaxAge} anos."));
 
             if (age < MinAge)
-                throw new InvalidBirthDateException($"Idade minima é de {MinAge} anos.");
+                return Result.Failure<BirthDate>(new Error("422", $"Idade minima é de {MinAge} anos."));
 
-            return new BirthDate(date);
+            return Result.Success(new BirthDate(date));
         }
         #endregion
 

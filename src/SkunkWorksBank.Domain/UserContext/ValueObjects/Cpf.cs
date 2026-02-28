@@ -1,4 +1,5 @@
-﻿using SkunkWorksBank.Domain.Shared.ValueObjects;
+﻿using SkunkWorksBank.Domain.Shared.Results;
+using SkunkWorksBank.Domain.Shared.ValueObjects;
 using SkunkWorksBank.Domain.Users.ValueObjects.Exceptions;
 using System.Text.RegularExpressions;
 
@@ -27,19 +28,18 @@ namespace SkunkWorksBank.Domain.Users.ValueObjects
         #endregion
 
         #region Factories
-        public static Cpf Create(string cpf)
+        public static Result<Cpf> Create(string cpf)
         {
 
-            if (string.IsNullOrEmpty(cpf)
-                || string.IsNullOrWhiteSpace(cpf))
-                throw new InvalidCpfException("CPF não pode ser vazio.");
+            if (string.IsNullOrWhiteSpace(cpf))
+                return Result.Failure<Cpf>(new Error("422", "CPF não pode ser vazio."));
 
             cpf = Regex.Replace(cpf.Trim(), @"\D", "");
 
             if (cpf.Length != MaxLenght)
-                throw new InvalidCpfLenghtException($"CPF não tem {MaxLenght} números.");
+                return Result.Failure<Cpf>(new Error("422", $"CPF não tem {MaxLenght} números."));
 
-            return new Cpf(cpf);
+            return Result.Success(new Cpf(cpf));
         }
         #endregion
 

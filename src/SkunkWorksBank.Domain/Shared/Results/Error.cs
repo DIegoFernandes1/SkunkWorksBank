@@ -1,4 +1,4 @@
-﻿namespace SkunkWorksBank.Application.SharedContext.Results
+﻿namespace SkunkWorksBank.Domain.Shared.Results
 {
     public record Error(string Code, string Message)
     {

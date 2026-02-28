@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using SkunkWorksBank.Application.SharedContext.Results;
+using SkunkWorksBank.Domain.Shared.Results;
 
 namespace SkunkWorksBank.Application.SharedContext.UseCases.Abstractions
 {

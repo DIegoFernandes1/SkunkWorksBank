@@ -1,4 +1,5 @@
-﻿using SkunkWorksBank.Domain.Shared.ValueObjects;
+﻿using SkunkWorksBank.Domain.Shared.Results;
+using SkunkWorksBank.Domain.Shared.ValueObjects;
 using SkunkWorksBank.Domain.Users.ValueObjects.Exceptions;
 
 namespace SkunkWorksBank.Domain.Users.ValueObjects
@@ -18,7 +19,7 @@ namespace SkunkWorksBank.Domain.Users.ValueObjects
         #region Constructors
         private Name()
         {
-            
+
         }
         private Name(string value)
         {
@@ -27,19 +28,18 @@ namespace SkunkWorksBank.Domain.Users.ValueObjects
         #endregion
 
         #region Factories
-        public static Name Create(string name)
+        public static Result<Name> Create(string name)
         {
-            if (string.IsNullOrEmpty(name)
-                || string.IsNullOrWhiteSpace(name))
-                throw new InvalidNameExpection("Nome não pode ser vazio.");
+            if (string.IsNullOrWhiteSpace(name))
+                return Result.Failure<Name>(new Error("422", "Nome não pode ser vazio."));
 
             if (name.Length < MinLenght)
-                throw new InvalidNameLenghtException($"Nome deve ter no minimo {MinLenght} caracteres.");
+                return Result.Failure<Name>(new Error("422", $"Nome deve ter no minimo {MinLenght} caracteres."));
 
-            if(name.Length > MaxLenght)
-                throw new InvalidNameLenghtException($"Nome deve ter no máximo {MaxLenght} caracteres.");
+            if (name.Length > MaxLenght)
+                return Result.Failure<Name>(new Error("422", $"Nome deve ter no máximo {MaxLenght} caracteres."));
 
-            return new Name(name);
+            return Result.Success(new Name(name));
         }
         #endregion
 
