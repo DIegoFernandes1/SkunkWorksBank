@@ -10,9 +10,9 @@ namespace SkunkWorksBank.API.tests.Users.ValueObjects
         [Fact]
         public void ShouldCreateTrackerWithCurrentUtcDateTime()
         {
-            var tracker = Tracker.Create(_dateTimeProvider);
+            var result = Tracker.Create(_dateTimeProvider);
 
-            Assert.Equal(_dateTimeProvider.UtcNow, tracker.CreatedAt);
+            Assert.Equal(_dateTimeProvider.UtcNow, result.Value.CreatedAt);
         }
 
         [Fact]
@@ -20,15 +20,15 @@ namespace SkunkWorksBank.API.tests.Users.ValueObjects
         {
             var createdAt = DateTime.UtcNow;
 
-            var tracker = Tracker.Create(createdAt, createdAt);
+            var resut = Tracker.Create(createdAt, createdAt);
 
-            Assert.Equal(createdAt, tracker.CreatedAt);
+            Assert.Equal(createdAt, resut.Value.CreatedAt);
         }
 
         [Fact]
         public void ShouldUpdateDate()
         {
-            var tracker = Tracker.Create(_dateTimeProvider);
+            var tracker = Tracker.Create(_dateTimeProvider).Value;
 
             _dateTimeProvider.Advance(new TimeSpan(4,2,45,32));
             tracker.Update(_dateTimeProvider);

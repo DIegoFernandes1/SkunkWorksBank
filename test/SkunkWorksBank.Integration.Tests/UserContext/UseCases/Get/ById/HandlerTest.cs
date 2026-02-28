@@ -31,7 +31,6 @@ namespace SkunkWorksBank.API.Integration.Tests.UserContext.UseCases.Get.ById
 
             var resultQuery = await _sender.Send(query, CancellationToken.None);
 
-            Assert.NotNull(resultQuery);
             Assert.True(resultQuery.IsSuccess);
             Assert.NotNull(resultQuery.Value);
         }

@@ -1,12 +1,11 @@
 ﻿using SkunkWorksBank.Domain.Users.ValueObjects;
-using SkunkWorksBank.Domain.Users.ValueObjects.Exceptions;
 
 namespace SkunkWorksBank.API.tests.Users.ValueObjects
 {
     public class NameTest
     {
         private const string _value = "Diego Fernandes de Meneses";
-        private readonly Name _name = Name.Create("Diego Fernandes de Meneses");
+        private readonly Name _name = Name.Create("Diego Fernandes de Meneses").Value;
 
         [Fact]
         public void ShouldCreateAName()
@@ -33,21 +32,21 @@ namespace SkunkWorksBank.API.tests.Users.ValueObjects
         [InlineData(" ")]
         public void ShouldFailIfNameIsNotValid(string name)
         {
+            var result = Name.Create(name);
 
-            Assert.Throws<InvalidNameExpection>(() =>
-            {
-                Name.Create(name);
-            });
+            Assert.True(result.IsFailure);
+            Assert.Equal("422", result.Error.Code);
+            Assert.Equal("Nome não pode ser vazio.", result.Error.Message);
         }
 
         [Fact]
         public void ShouldFailIfNameLenghtIsNotValid()
         {
+            var result = Name.Create("Die");
 
-            Assert.Throws<InvalidNameLenghtException>(() =>
-            {
-                Name.Create("Die");
-            });
+            Assert.True(result.IsFailure);
+            Assert.Equal("422", result.Error.Code);
+            Assert.Equal($"Nome deve ter no minimo {Name.MinLenght} caracteres.", result.Error.Message);
         }
     }
 }

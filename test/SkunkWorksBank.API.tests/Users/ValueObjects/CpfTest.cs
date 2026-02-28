@@ -1,5 +1,4 @@
 ﻿using SkunkWorksBank.Domain.Users.ValueObjects;
-using SkunkWorksBank.Domain.Users.ValueObjects.Exceptions;
 
 namespace SkunkWorksBank.API.tests.Users.ValueObjects
 {
@@ -7,13 +6,13 @@ namespace SkunkWorksBank.API.tests.Users.ValueObjects
     {
 
         private readonly string _value = "12345678989";
-        private readonly Cpf _cpf = Cpf.Create("12345678989");
+        private readonly Cpf _cpf = Cpf.Create("12345678989").Value;
 
         [Fact]
         public void ShouldCreateNewCpf()
         {
-            var cpf = Cpf.Create(_value);
-            Assert.Equal(cpf, cpf.ToString());
+            var result = Cpf.Create(_value);
+            Assert.Equal(result.Value.Value, _value);
         }
 
         [Fact]
@@ -34,10 +33,11 @@ namespace SkunkWorksBank.API.tests.Users.ValueObjects
         [InlineData("  ")]
         public void ShouldFailToCreateACpfIfIsNotValid(string value)
         {
-            Assert.Throws<InvalidCpfException>(() =>
-            {
-                var cpf = Cpf.Create(value);
-            });
+            var result = Cpf.Create(value);
+
+            Assert.True(result.IsFailure);
+            Assert.Equal("422", result.Error.Code);
+            Assert.Equal("CPF não pode ser vazio.", result.Error.Message);
         }
 
         [Theory]
@@ -45,10 +45,11 @@ namespace SkunkWorksBank.API.tests.Users.ValueObjects
         [InlineData("12345678987878")]
         public void ShouldFailToCreateACpfLenghtIfIsNotValid(string value)
         {
-            Assert.Throws<InvalidCpfLenghtException>(() =>
-            {
-                var cpf = Cpf.Create(value);
-            });
+            var result = Cpf.Create(value);
+
+            Assert.True(result.IsFailure);
+            Assert.Equal("422", result.Error.Code);
+            Assert.Equal($"CPF não tem {Cpf.MaxLenght} números.", result.Error.Message);
         }
     }
 }

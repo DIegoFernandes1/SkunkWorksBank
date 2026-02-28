@@ -12,8 +12,8 @@ using SkunkWorksBank.Repository.SharedContext.Data;
 namespace SkunkWorksBank.Repository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251218174607_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260228165651_resetando_criando_bd")]
+    partial class resetando_criando_bd
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,72 @@ namespace SkunkWorksBank.Repository.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("SkunkWorksBank.Domain.UserContext.Entities.Contact", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ContactTypeId")
+                        .HasColumnType("int")
+                        .HasColumnName("contact_type_id");
+
+                    b.Property<bool>("IsPrimary")
+                        .HasColumnType("bit")
+                        .HasColumnName("is_primary");
+
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("bit")
+                        .HasColumnName("is_verified");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("PK_Contacts");
+
+                    b.HasIndex("ContactTypeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("contacts", (string)null);
+                });
+
+            modelBuilder.Entity("SkunkWorksBank.Domain.UserContext.Entities.ContactType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("PK_Contact_Type");
+
+                    b.ToTable("contact_types", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Telefone"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Email"
+                        });
+                });
 
             modelBuilder.Entity("SkunkWorksBank.Domain.UserContext.Entities.UserStatus", b =>
                 {
@@ -78,23 +144,65 @@ namespace SkunkWorksBank.Repository.Migrations
                         .HasColumnType("bit")
                         .HasColumnName("is_pep");
 
-                    b.Property<int>("user_status_id")
-                        .HasColumnType("int");
+                    b.Property<int>("_userStatusId")
+                        .HasColumnType("int")
+                        .HasColumnName("user_status_id");
 
                     b.HasKey("Id")
                         .HasName("PK_User");
 
-                    b.HasIndex("user_status_id");
+                    b.HasIndex("_userStatusId");
 
                     b.ToTable("users", (string)null);
+                });
+
+            modelBuilder.Entity("SkunkWorksBank.Domain.UserContext.Entities.Contact", b =>
+                {
+                    b.HasOne("SkunkWorksBank.Domain.UserContext.Entities.ContactType", "ContactType")
+                        .WithMany()
+                        .HasForeignKey("ContactTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SkunkWorksBank.Domain.Users.Entities.User", "User")
+                        .WithMany("Contacts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.OwnsOne("SkunkWorksBank.Domain.UserContext.ValueObjects.ContactValue", "Value", b1 =>
+                        {
+                            b1.Property<int>("ContactId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("value");
+
+                            b1.HasKey("ContactId");
+
+                            b1.ToTable("contacts");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ContactId");
+                        });
+
+                    b.Navigation("ContactType");
+
+                    b.Navigation("User");
+
+                    b.Navigation("Value")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SkunkWorksBank.Domain.Users.Entities.User", b =>
                 {
                     b.HasOne("SkunkWorksBank.Domain.UserContext.Entities.UserStatus", "UserStatus")
                         .WithMany()
-                        .HasForeignKey("user_status_id")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("_userStatusId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.OwnsOne("SkunkWorksBank.Domain.Users.ValueObjects.BirthDate", "Birthdate", b1 =>
@@ -126,6 +234,9 @@ namespace SkunkWorksBank.Repository.Migrations
                                 .HasColumnName("cpf");
 
                             b1.HasKey("UserId");
+
+                            b1.HasIndex("Value")
+                                .IsUnique();
 
                             b1.ToTable("users");
 
@@ -186,6 +297,11 @@ namespace SkunkWorksBank.Repository.Migrations
                         .IsRequired();
 
                     b.Navigation("UserStatus");
+                });
+
+            modelBuilder.Entity("SkunkWorksBank.Domain.Users.Entities.User", b =>
+                {
+                    b.Navigation("Contacts");
                 });
 #pragma warning restore 612, 618
         }

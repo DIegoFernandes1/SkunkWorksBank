@@ -31,7 +31,7 @@ namespace SkunkWorksBank.Domain.Users.ValueObjects
         public static Result<BirthDate> Create(DateOnly date, DateOnly today)
         {
             if (date > today)
-                return Result.Failure<BirthDate>(new Error("422", "Idade não pode ser futura"));
+                return Result.Failure<BirthDate>(new Error("422", "Idade não pode ser futura."));
 
             var age = GetAge(date, today);
 

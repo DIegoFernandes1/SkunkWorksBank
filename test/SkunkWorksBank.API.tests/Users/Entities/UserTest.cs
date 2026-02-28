@@ -8,13 +8,13 @@ namespace SkunkWorksBank.API.tests.Users.Entities
         public void ShouldCreateAnUser()
         {
             var birthDate = new DateOnly(2000, 8, 18);
-            var user = User.Create("12345678978", "Jãao Silva", birthDate, false);
+            var result = User.Create("12345678978", "Jãao Silva", birthDate, false);
 
-            Assert.NotNull(user);
-            Assert.Equal("12345678978", user.Cpf);
-            Assert.Equal("Jãao Silva", user.FullName);
-            Assert.Equal(birthDate, user.Birthdate);
-            Assert.False(user.IsPep);
+            Assert.True(result.IsSuccess);
+            Assert.Equal("12345678978", result.Value.Cpf);
+            Assert.Equal("Jãao Silva", result.Value.FullName);
+            Assert.Equal(birthDate, result.Value.Birthdate);
+            Assert.False(result.Value.IsPep);
         }
     }
 }

@@ -18,11 +18,14 @@ namespace SkunkWorksBank.Application.UserContext.UseCases.Create.Contacts
             if (user is null)
                 return Result.Failure<Response>(new Error("404", $"Usuário não encontrado com o ID fornecido. ID {request.UserId}"));
 
-            var contact = await user
+            var result = await user
                 .AddContact(request.ContactTypeId, request.Value, request.IsPrimary, request.IsVerified)
                 .TapAsync(_ => unitOfWork.CommitAsync(cancellationToken));
 
-            return Result.Success(new Response(contact.Value.Id));
+            if(result.IsFailure)
+                return Result.Failure<Response>(result.Error);
+
+            return Result.Success(new Response(result.Value.Id));
         }
     }
 }

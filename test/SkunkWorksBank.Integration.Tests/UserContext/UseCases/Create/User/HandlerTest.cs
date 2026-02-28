@@ -2,9 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using SkunkWorksBank.API.Integration.Tests.Fakers;
 using SkunkWorksBank.Application.SharedContext.Behavios;
-using SkunkWorksBank.Domain.Users.ValueObjects.Exceptions;
+using SkunkWorksBank.Domain.Users.ValueObjects;
 
-namespace SkunkWorksBank.API.Integration.Tests.UserContext.UseCases.Create
+namespace SkunkWorksBank.API.Integration.Tests.UserContext.UseCases.Create.User
 {
     public class HandlerTest : IClassFixture<CustomWebApplicationFactory>
     {
@@ -33,10 +33,11 @@ namespace SkunkWorksBank.API.Integration.Tests.UserContext.UseCases.Create
         {
             var command = UserFaker.CreateUserCommand(true).Generate();
 
-            await Assert.ThrowsAsync<InvalidBirthDateException>(async () =>
-            {
-                await _sender.Send(command, CancellationToken.None);
-            });
+            var result = await _sender.Send(command, CancellationToken.None);
+
+            Assert.True(result.IsFailure);
+            Assert.Equal("422", result.Error.Code);
+            Assert.Equal($"Idade minima é de {BirthDate.MinAge} anos.", result.Error.Message);
         }
 
         [Fact]

@@ -74,6 +74,18 @@ namespace SkunkWorksBank.Repository.Migrations
                         .HasName("PK_Contact_Type");
 
                     b.ToTable("contact_types", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Telefone"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Email"
+                        });
                 });
 
             modelBuilder.Entity("SkunkWorksBank.Domain.UserContext.Entities.UserStatus", b =>
@@ -91,6 +103,28 @@ namespace SkunkWorksBank.Repository.Migrations
                         .HasName("PK_User_Status");
 
                     b.ToTable("user_status", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Pending"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Active"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Blocked"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Disabled"
+                        });
                 });
 
             modelBuilder.Entity("SkunkWorksBank.Domain.Users.Entities.User", b =>
@@ -121,7 +155,7 @@ namespace SkunkWorksBank.Repository.Migrations
 
             modelBuilder.Entity("SkunkWorksBank.Domain.UserContext.Entities.Contact", b =>
                 {
-                    b.HasOne("SkunkWorksBank.Domain.UserContext.Entities.Contact", "ContactType")
+                    b.HasOne("SkunkWorksBank.Domain.UserContext.Entities.ContactType", "ContactType")
                         .WithMany()
                         .HasForeignKey("ContactTypeId")
                         .OnDelete(DeleteBehavior.Restrict)

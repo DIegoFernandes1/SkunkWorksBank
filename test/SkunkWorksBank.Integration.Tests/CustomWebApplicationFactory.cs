@@ -26,8 +26,6 @@ namespace SkunkWorksBank.API.Integration.Tests
         {
             builder.ConfigureServices(services =>
             {
-                sqlContainer.StartAsync().GetAwaiter().GetResult();
-
                 var baseCs = sqlContainer.GetConnectionString();
 
                 var cs = new SqlConnectionStringBuilder(baseCs)
@@ -47,10 +45,12 @@ namespace SkunkWorksBank.API.Integration.Tests
 
         public async Task InitializeAsync()
         {
+            await sqlContainer.StartAsync();
+
             scope = Services.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            context.Database.Migrate();
+            await context.Database.MigrateAsync();
         }
         async Task IAsyncLifetime.DisposeAsync()
         {
