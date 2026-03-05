@@ -1,6 +1,6 @@
-﻿using SkunkWorksBank.Domain.Shared.Results;
+﻿using SkunkWorksBank.Domain.Shared.Common;
+using SkunkWorksBank.Domain.Shared.Results;
 using SkunkWorksBank.Domain.Shared.ValueObjects;
-using SkunkWorksBank.Domain.Users.ValueObjects.Exceptions;
 
 namespace SkunkWorksBank.Domain.Users.ValueObjects
 {
@@ -31,15 +31,15 @@ namespace SkunkWorksBank.Domain.Users.ValueObjects
         public static Result<BirthDate> Create(DateOnly date, DateOnly today)
         {
             if (date > today)
-                return Result.Failure<BirthDate>(new Error("422", "Idade não pode ser futura."));
+                return Result.Failure<BirthDate>(new Error(HttpCode.UNPROCESSABLE_CONTENT_422, Message.FUTURE_DATE));
 
             var age = GetAge(date, today);
 
             if (age > MaxAge)
-                return Result.Failure<BirthDate>(new Error("422", $"Idade máxima é de {MaxAge} anos."));
+                return Result.Failure<BirthDate>(new Error(HttpCode.UNPROCESSABLE_CONTENT_422, Message.MAX_DATE));
 
             if (age < MinAge)
-                return Result.Failure<BirthDate>(new Error("422", $"Idade minima é de {MinAge} anos."));
+                return Result.Failure<BirthDate>(new Error(HttpCode.UNPROCESSABLE_CONTENT_422, Message.MIN_DATE));
 
             return Result.Success(new BirthDate(date));
         }

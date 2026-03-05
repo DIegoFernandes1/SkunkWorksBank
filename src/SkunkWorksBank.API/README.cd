@@ -14,8 +14,9 @@
 #rollback
 #dotnet ef database update [NOME_DA_MIGRATION] --project ../SkunkWorksBank.Repository --startup-project .
 
+#drop database
+#dotnet ef database drop --project ../SkunkWorksBank.Repository --startup-project .
+
 #TODO LIST
-#- AJUSTAR STRING PASSADA NO ERROR PARA SER UM ENUM
 #- AJUSTAR RETORNO DO VALIDATION BEHAVIOR PARA RESULT
-#- IMPLEMENTAR VALIDAÇÃO DO RETORNO QUANDO FOR IsFailure (NÃO RETORNAR SOMENTE BADREQUEST, MAS SIM O ERRO ESPECÍFICO)
 #- IMPLEMENTAR REGRA DE NEGOCIO PARA CONTATOS, APENAS UM ISPRIMARY

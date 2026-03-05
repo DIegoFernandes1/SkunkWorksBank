@@ -4,6 +4,7 @@ using SkunkWorksBank.Domain.Shared.Data.Abstractions;
 using SkunkWorksBank.Domain.UserContext.Specifications;
 using SkunkWorksBank.Domain.Users.Entities;
 using SkunkWorksBank.Domain.Users.Repositories.Abstractions;
+using SkunkWorksBank.Domain.Shared.Common;
 
 namespace SkunkWorksBank.Application.UserContext.UseCases.Create.Users
 {
@@ -15,7 +16,7 @@ namespace SkunkWorksBank.Application.UserContext.UseCases.Create.Users
             var userExists = await userRepository.FindAsync(new GetByCpfSpecification(request.Cpf), cancellationToken);
 
             if (userExists is not null)
-                return Result.Failure<Response>(new Error("400", "CPF Já cadastrado."));
+                return Result.Failure<Response>(new Error(HttpCode.BAD_REQUEST_400, "CPF Já cadastrado."));
 
             var result = await User.Create(request.Cpf, request.FullName, request.BirthDate, request.IsPep)
                 .TapAsync(user => userRepository.AddAsync(user, cancellationToken))

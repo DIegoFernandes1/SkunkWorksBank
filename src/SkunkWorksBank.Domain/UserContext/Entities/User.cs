@@ -74,7 +74,7 @@ namespace SkunkWorksBank.Domain.Users.Entities
             var exists = _contacts.Any(x => x.Value.Equals(value));
 
             if (exists)
-                return Result.Failure<Contact>(new Error("409", "Já existe um contato cadastrado"));
+                return Result.Failure<Contact>(new Error(HttpCode.CONFLICT_409, "Já existe um contato cadastrado"));
 
             return Contact.Create(this.Id, contactTypeId, value, isPrimary, isVerified)
                 .Tap(_contacts.Add);

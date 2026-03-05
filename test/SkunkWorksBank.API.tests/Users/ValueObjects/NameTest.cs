@@ -1,4 +1,5 @@
-﻿using SkunkWorksBank.Domain.Users.ValueObjects;
+﻿using SkunkWorksBank.Domain.Shared.Common;
+using SkunkWorksBank.Domain.Users.ValueObjects;
 
 namespace SkunkWorksBank.API.tests.Users.ValueObjects
 {
@@ -35,8 +36,8 @@ namespace SkunkWorksBank.API.tests.Users.ValueObjects
             var result = Name.Create(name);
 
             Assert.True(result.IsFailure);
-            Assert.Equal("422", result.Error.Code);
-            Assert.Equal("Nome não pode ser vazio.", result.Error.Message);
+            Assert.Equal(HttpCode.UNPROCESSABLE_CONTENT_422, result.Error.Code);
+            Assert.Equal(Message.NAME_EMPTY_OR_NULL, result.Error.Message);
         }
 
         [Fact]
@@ -45,8 +46,8 @@ namespace SkunkWorksBank.API.tests.Users.ValueObjects
             var result = Name.Create("Die");
 
             Assert.True(result.IsFailure);
-            Assert.Equal("422", result.Error.Code);
-            Assert.Equal($"Nome deve ter no minimo {Name.MinLenght} caracteres.", result.Error.Message);
+            Assert.Equal(HttpCode.UNPROCESSABLE_CONTENT_422, result.Error.Code);
+            Assert.Equal(Message.NAME_MIN_LENGHT, result.Error.Message);
         }
     }
 }

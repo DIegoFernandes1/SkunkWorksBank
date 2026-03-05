@@ -1,6 +1,6 @@
-﻿using SkunkWorksBank.Domain.Shared.Results;
+﻿using SkunkWorksBank.Domain.Shared.Common;
+using SkunkWorksBank.Domain.Shared.Results;
 using SkunkWorksBank.Domain.Shared.ValueObjects;
-using SkunkWorksBank.Domain.UserContext.ValueObjects.Exceptions;
 using System.Text.RegularExpressions;
 
 namespace SkunkWorksBank.Domain.UserContext.ValueObjects
@@ -31,13 +31,13 @@ namespace SkunkWorksBank.Domain.UserContext.ValueObjects
         {
             if (string.IsNullOrEmpty(value)
                 || string.IsNullOrWhiteSpace(value))
-                return Result.Failure<ContactValue>(new Error("422", "Campo não pode ser vazio."));
+                return Result.Failure<ContactValue>(new Error(HttpCode.UNPROCESSABLE_CONTENT_422, Message.FIELD_EMPTY_OR_NULL));
 
             if (EmailRegex.IsMatch(value)
                 || PhoneRegex.IsMatch(value))
                 return Result.Success(new ContactValue(value));
 
-            return Result.Failure<ContactValue>(new Error("422", "É necessário informar um contato válido."));
+            return Result.Failure<ContactValue>(new Error(HttpCode.UNPROCESSABLE_CONTENT_422, Message.INVALID_CONTACT));
         }
         #endregion
 

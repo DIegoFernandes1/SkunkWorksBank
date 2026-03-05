@@ -1,4 +1,5 @@
-﻿using SkunkWorksBank.Domain.UserContext.ValueObjects;
+﻿using SkunkWorksBank.Domain.Shared.Common;
+using SkunkWorksBank.Domain.UserContext.ValueObjects;
 
 namespace SkunkWorksBank.API.tests.Users.ValueObjects
 {
@@ -25,8 +26,8 @@ namespace SkunkWorksBank.API.tests.Users.ValueObjects
             var result = ContactValue.Create(value);
 
             Assert.False(result.IsSuccess);
-            Assert.Equal("422", result.Error.Code);
-            Assert.Equal("É necessário informar um contato válido.", result.Error.Message);
+            Assert.Equal(HttpCode.UNPROCESSABLE_CONTENT_422, result.Error.Code);
+            Assert.Equal(Message.INVALID_CONTACT, result.Error.Message);
         }
 
         [Theory]
@@ -37,8 +38,8 @@ namespace SkunkWorksBank.API.tests.Users.ValueObjects
             var result = ContactValue.Create(value);
 
             Assert.False(result.IsSuccess);
-            Assert.Equal("422", result.Error.Code);
-            Assert.Equal("Campo não pode ser vazio.", result.Error.Message);
+            Assert.Equal(HttpCode.UNPROCESSABLE_CONTENT_422, result.Error.Code);
+            Assert.Equal(Message.FIELD_EMPTY_OR_NULL, result.Error.Message);
         }
     }
 }

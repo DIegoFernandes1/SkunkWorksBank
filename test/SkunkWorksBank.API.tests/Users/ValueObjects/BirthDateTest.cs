@@ -1,6 +1,5 @@
-﻿using SkunkWorksBank.Domain.Shared.Results;
+﻿using SkunkWorksBank.Domain.Shared.Common;
 using SkunkWorksBank.Domain.Users.ValueObjects;
-using SkunkWorksBank.Domain.Users.ValueObjects.Exceptions;
 
 namespace SkunkWorksBank.API.tests.Users.ValueObjects
 {
@@ -22,8 +21,8 @@ namespace SkunkWorksBank.API.tests.Users.ValueObjects
             var result = BirthDate.Create(_today, _today);
 
             Assert.True(result.IsFailure);
-            Assert.Equal("422", result.Error.Code);
-            Assert.Equal($"Idade minima é de {BirthDate.MinAge} anos.", result.Error.Message);
+            Assert.Equal(HttpCode.UNPROCESSABLE_CONTENT_422, result.Error.Code);
+            Assert.Equal(Message.MIN_DATE, result.Error.Message);
         }
 
         [Fact]
@@ -34,8 +33,8 @@ namespace SkunkWorksBank.API.tests.Users.ValueObjects
             var result = BirthDate.Create(tomorrow, _today);
 
             Assert.True(result.IsFailure);
-            Assert.Equal("422", result.Error.Code);
-            Assert.Equal($"Idade não pode ser futura.", result.Error.Message);
+            Assert.Equal(HttpCode.UNPROCESSABLE_CONTENT_422, result.Error.Code);
+            Assert.Equal(Message.FUTURE_DATE, result.Error.Message);
         }
 
         [Fact]
@@ -46,8 +45,8 @@ namespace SkunkWorksBank.API.tests.Users.ValueObjects
             var result = BirthDate.Create(maxDate, _today);
 
             Assert.True(result.IsFailure);
-            Assert.Equal("422", result.Error.Code);
-            Assert.Equal($"Idade não pode ser futura.", result.Error.Message);
+            Assert.Equal(HttpCode.UNPROCESSABLE_CONTENT_422, result.Error.Code);
+            Assert.Equal(Message.FUTURE_DATE, result.Error.Message);
         }
 
         [Fact]
@@ -67,8 +66,8 @@ namespace SkunkWorksBank.API.tests.Users.ValueObjects
             var result = BirthDate.Create(maxDate, _today);
 
             Assert.True(result.IsFailure);
-            Assert.Equal("422", result.Error.Code);
-            Assert.Equal($"Idade máxima é de {BirthDate.MaxAge} anos.", result.Error.Message);
+            Assert.Equal(HttpCode.UNPROCESSABLE_CONTENT_422, result.Error.Code);
+            Assert.Equal(Message.MAX_DATE, result.Error.Message);
         }
 
         [Fact]

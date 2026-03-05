@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SkunkWorksBank.Application.UserContext.UseCases.Create.Users;
 using SkunkWorksBank.Application.UserContext.UseCases.Create.Contacts;
 using SkunkWorksBank.Application.UserContext.UseCases.Get.ById;
+using SkunkWorksBank.API.Extensions;
 
 namespace SkunkWorksBank.API.Controllers
 {
@@ -22,10 +23,7 @@ namespace SkunkWorksBank.API.Controllers
         {
             var result = await sender.Send(command, cancellationToken);
 
-            if (result.IsFailure)
-                return BadRequest(result.Error);
-
-            return Ok(result);
+            return result.ToActionResult();
         }
 
         [HttpGet]
@@ -33,10 +31,7 @@ namespace SkunkWorksBank.API.Controllers
         {
             var result = await sender.Send(query, cancellationToken);
 
-            if (result.IsFailure)
-                return BadRequest(result.Error);
-
-            return Ok(result);
+            return result.ToActionResult();
         }
 
         [HttpPost]
@@ -45,10 +40,7 @@ namespace SkunkWorksBank.API.Controllers
         {
             var result = await sender.Send(command, cancellationToken);
 
-            if (result.IsFailure)
-                return BadRequest(result.Error);
-
-            return Ok(result);
+            return result.ToActionResult();
         }
     }
 }

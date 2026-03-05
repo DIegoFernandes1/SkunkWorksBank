@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using SkunkWorksBank.API.Integration.Tests.Fakers;
 using SkunkWorksBank.Application.SharedContext.Behavios;
-using SkunkWorksBank.Domain.Users.ValueObjects;
+using SkunkWorksBank.Domain.Shared.Common;
 
 namespace SkunkWorksBank.API.Integration.Tests.UserContext.UseCases.Create.User
 {
@@ -36,8 +36,8 @@ namespace SkunkWorksBank.API.Integration.Tests.UserContext.UseCases.Create.User
             var result = await _sender.Send(command, CancellationToken.None);
 
             Assert.True(result.IsFailure);
-            Assert.Equal("422", result.Error.Code);
-            Assert.Equal($"Idade minima é de {BirthDate.MinAge} anos.", result.Error.Message);
+            Assert.Equal(HttpCode.UNPROCESSABLE_CONTENT_422, result.Error.Code);
+            Assert.Equal(Message.MIN_DATE, result.Error.Message);
         }
 
         [Fact]

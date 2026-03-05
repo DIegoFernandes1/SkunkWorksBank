@@ -1,4 +1,5 @@
-﻿using SkunkWorksBank.Domain.Users.ValueObjects;
+﻿using SkunkWorksBank.Domain.Shared.Common;
+using SkunkWorksBank.Domain.Users.ValueObjects;
 
 namespace SkunkWorksBank.API.tests.Users.ValueObjects
 {
@@ -36,8 +37,8 @@ namespace SkunkWorksBank.API.tests.Users.ValueObjects
             var result = Cpf.Create(value);
 
             Assert.True(result.IsFailure);
-            Assert.Equal("422", result.Error.Code);
-            Assert.Equal("CPF não pode ser vazio.", result.Error.Message);
+            Assert.Equal(HttpCode.UNPROCESSABLE_CONTENT_422, result.Error.Code);
+            Assert.Equal(Message.CPF_EMPTY_OR_NULL, result.Error.Message);
         }
 
         [Theory]
@@ -48,8 +49,8 @@ namespace SkunkWorksBank.API.tests.Users.ValueObjects
             var result = Cpf.Create(value);
 
             Assert.True(result.IsFailure);
-            Assert.Equal("422", result.Error.Code);
-            Assert.Equal($"CPF não tem {Cpf.MaxLenght} números.", result.Error.Message);
+            Assert.Equal(HttpCode.UNPROCESSABLE_CONTENT_422, result.Error.Code);
+            Assert.Equal(Message.CPF_MAX_LENGHT, result.Error.Message);
         }
     }
 }

@@ -2,6 +2,7 @@
 using SkunkWorksBank.Application.SharedContext.UseCases.Abstractions;
 using SkunkWorksBank.Domain.UserContext.Specifications;
 using SkunkWorksBank.Domain.Users.Repositories.Abstractions;
+using SkunkWorksBank.Domain.Shared.Common;
 
 namespace SkunkWorksBank.Application.UserContext.UseCases.Get.ById
 {
@@ -12,7 +13,7 @@ namespace SkunkWorksBank.Application.UserContext.UseCases.Get.ById
             var user = await userRepository.FindAsync(new GetByIdSpecification(request.Id), cancellationToken);
 
             if (user == null)
-                return Result.Failure<Response>(new Error("404", "Usuário não encontrado"));
+                return Result.Failure<Response>(new Error(HttpCode.NOT_FOUND_404, "Usuário não encontrado"));
 
             return Result.Success(Response.FromEntity(user));
         }

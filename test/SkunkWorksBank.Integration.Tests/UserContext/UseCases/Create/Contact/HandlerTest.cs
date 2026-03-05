@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SkunkWorksBank.API.Integration.Tests.Fakers;
 using SkunkWorksBank.Application.SharedContext.Behavios;
 using SkunkWorksBank.Application.UserContext.UseCases.Create.Users;
+using SkunkWorksBank.Domain.Shared.Common;
 using SkunkWorksBank.Domain.Shared.Results;
 
 namespace SkunkWorksBank.API.Integration.Tests.UserContext.UseCases.Create.Contact
@@ -61,8 +62,8 @@ namespace SkunkWorksBank.API.Integration.Tests.UserContext.UseCases.Create.Conta
             var resultContact = await _sender.Send(contactCommand, CancellationToken.None);
 
             Assert.True(resultContact.IsFailure);
-            Assert.Equal("422", resultContact.Error.Code);
-            Assert.Equal("É necessário informar um contato válido.", resultContact.Error.Message);
+            Assert.Equal(HttpCode.UNPROCESSABLE_CONTENT_422, resultContact.Error.Code);
+            Assert.Equal(Message.INVALID_CONTACT, resultContact.Error.Message);
         }
     }
 }

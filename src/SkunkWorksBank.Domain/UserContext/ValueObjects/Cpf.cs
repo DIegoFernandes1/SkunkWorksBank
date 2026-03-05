@@ -1,6 +1,6 @@
-﻿using SkunkWorksBank.Domain.Shared.Results;
+﻿using SkunkWorksBank.Domain.Shared.Common;
+using SkunkWorksBank.Domain.Shared.Results;
 using SkunkWorksBank.Domain.Shared.ValueObjects;
-using SkunkWorksBank.Domain.Users.ValueObjects.Exceptions;
 using System.Text.RegularExpressions;
 
 namespace SkunkWorksBank.Domain.Users.ValueObjects
@@ -32,12 +32,12 @@ namespace SkunkWorksBank.Domain.Users.ValueObjects
         {
 
             if (string.IsNullOrWhiteSpace(cpf))
-                return Result.Failure<Cpf>(new Error("422", "CPF não pode ser vazio."));
+                return Result.Failure<Cpf>(new Error(HttpCode.UNPROCESSABLE_CONTENT_422, Message.CPF_EMPTY_OR_NULL));
 
             cpf = Regex.Replace(cpf.Trim(), @"\D", "");
 
             if (cpf.Length != MaxLenght)
-                return Result.Failure<Cpf>(new Error("422", $"CPF não tem {MaxLenght} números."));
+                return Result.Failure<Cpf>(new Error(HttpCode.UNPROCESSABLE_CONTENT_422, Message.CPF_MAX_LENGHT));
 
             return Result.Success(new Cpf(cpf));
         }
